@@ -1,0 +1,5 @@
+---
+applications:
+  - name: Hack_app
+    random-route: true
+    memory: 256M
