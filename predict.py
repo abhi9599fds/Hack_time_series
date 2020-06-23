@@ -48,7 +48,7 @@ def predict():
         return df_ne
     except Exception as ex:
         print(ex)
-        print(ex.args())
+        print(ex.args)
         #Error happen in prediction
         return 103
 
@@ -77,9 +77,3 @@ def plot_graph(df_ne):
     graph1 = mig.to_json()
     return graph1
 
-
-#import ibm_db_dbi
-import ibm_db
-#str_conn = "DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-lon02-07.services.eu-gb.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=bfr48077;PWD=3j4h-zwx77mzftr4"
-
-#conn = ibm_db_dbi.connect(str_conn," "," ")
