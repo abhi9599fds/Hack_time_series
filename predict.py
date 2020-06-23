@@ -31,9 +31,7 @@ def get_data_api():
         df_ne = pd.DataFrame({'wind_sp':wind,'direc':direc},index =date)
         return df_ne
     except Exception as ex:
-        print(ex)
-        print(ex)
-        print(ex.args())
+        print(ex.args)
         #Error Happen in Api Loading
         return 102
 
