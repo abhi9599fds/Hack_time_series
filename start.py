@@ -20,5 +20,5 @@ def home():
         print(ex.args)
         return render_template('index.html')
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True,port=int(os.getenv('PORT', 8000)))
-    #app.run(debug=True)ii
+    app.run(host='0.0.0.0',debug=False,port=int(os.getenv('PORT', 8000)))
+    #app.run(debug=True)

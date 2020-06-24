@@ -17,9 +17,11 @@ def model_load():
 
 def get_data_api():
     try:
-        r = requests.get("http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/2132755?apikey=MdceFU8V9cxQfSebdGS7RAiGHnyyqg3A&language=en-us&details=true&metric=true")
+        r = requests.get("http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/2132755?apikey=fMl4FAfWssd2XZaVJEhA1su8Rh9qI7Ix&language=en-us&details=true&metric=true")
         if r.status_code != 200:
-            raise Exception('Error happend in Api Request')
+            r = requests.get("http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/2132755?apikey=MdceFU8V9cxQfSebdGS7RAiGHnyyqg3A&language=en-us&details=true&metric=true")
+            if r.status_code != 200:
+                 raise Exception('Error happend in Api Request 50 calls completed')
         t = r.json()
         date = []
         wind = []
