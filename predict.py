@@ -15,6 +15,28 @@ def model_load():
         #Error Happen in Model Load
         return 101
 
+def get_data_hourly():
+    try:
+        r = requests.get("http://dataservice.accuweather.com/forecasts/v1/hourly/1hour/2132755?apikey=fMl4FAfWssd2XZaVJEhA1su8Rh9qI7Ix&language=en-us&details=true&metric=true")
+        if r.status_code != 200:
+            r = requests.get("http://dataservice.accuweather.com/forecasts/v1/hourly/1hour/2132755?apikey=MdceFU8V9cxQfSebdGS7RAiGHnyyqg3A&language=en-us&details=true&metric=true")
+            if r.status_code != 200:
+                 raise Exception('Error happend in Api Request 50 calls completed')
+        t = r.json()
+        date = []
+        wind = []
+        direc = []
+        for i in t:
+            date.append(i['DateTime'][:-6])
+            wind.append(i["Wind"]['Speed']['Value'])
+            direc.append(i["Wind"]['Direction']['Degrees'])
+        df_ne = pd.DataFrame({'wind_sp':wind,'direc':direc},index =date)
+        return df_ne
+    except Exception as ex:
+        print(ex.args)
+        #Error Happen in Api Loading
+        return 102
+
 def get_data_api():
     try:
         r = requests.get("http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/2132755?apikey=fMl4FAfWssd2XZaVJEhA1su8Rh9qI7Ix&language=en-us&details=true&metric=true")
@@ -53,6 +75,26 @@ def predict():
         print(ex.args)
         #Error happen in prediction
         return 103
+
+def predict_one(df_ne):
+    try:
+        model, sc , sc1 = model_load()
+        df_ne.iloc[:, 0:2] = sc1.transform(df_ne.iloc[:, 0:2])
+        y_api = model.predict(n_periods=1 , exogenous=df_ne.iloc[:,0:2],return_conf_int=True,alpha=0.05)
+        df_ne['y_hat'] = sc.inverse_transform(y_api[0].reshape(-1,1))
+        df_ne['y_lower'] = sc.inverse_transform(y_api[1][:,0:1])
+        df_ne['y_upper'] = sc.inverse_transform(y_api[1][:,1:2])
+        df_ne[['wind_sp','direc']] = sc1.inverse_transform(df_ne[['wind_sp','direc']])
+        return df_ne
+    except Exception as ex:
+        print(ex)
+        print(ex.args)
+        #Error happen in prediction
+        return 105
+
+def make_data(wind_sp ,direc,date):
+    df = df_ne = pd.DataFrame({'wind_sp':wind_sp,'direc':direc},index=date)
+    return df
 
 def plot_graph(df_ne):
     mig = make_subplots(rows=3, cols=1,

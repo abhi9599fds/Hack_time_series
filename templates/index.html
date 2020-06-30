@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>PLOTS</title>
-        <style type="text/css">
-        .header{
-            margin-top: 20px;
-            text-align: center;
-            background-color: rgb(136, 185, 229);
-            height: 70px;
-            line-height: 70px;
-            font-family: monospace;
-        }
+    <style type="text/css">
         .chart{
             margin-top: 30px;
             text-align: center;
+            background-color:#b7efcd;
         }
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -22,19 +15,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 </head>
 <body>
+<div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4f98ca;font-size:20px;">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/input">Input-Manual</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+ <div class="jumbotron jumbotron-fluid" style="background-color: #e3f2fd;">
+     <div class="container">
+         <h1 class="display-4">Wind Energy Prediction</h1>
+         <p class="lead">In This we are Predicting Energy Produced by wind in Every 12 hrs.In this we use Sariamax model
+             to predict in future. Since wind Energy is best way to produce clean Energy.
+             <ui>
+                 <li>1. Plot is Power Prediction Plot with respect to time</li>
+                 <li>2. Wind speed plot with respect to time</li>
+                 <li>3. Direction with respect to time </li>
+             </ui>
+         </p>
+     </div>
+ </div>
 <div class="container-fluid">
-    <div class="header">
-        <h2>
-            PREDICTION PLOTS
-        </h2>
-    </div>
     <div id="chart" class="chart">
         <script>
                var graph1 = {{graph1 | safe}};
                Plotly.plot('chart',graph1,{});
          </script>
     </div>
-    <a href="/" class="btn btn-primary btn-lg btn-block" role="button" aria-pressed="true">REFRESH</a>
+    <a href="/predict12hrs" class="btn btn-primary btn-lg btn-block" role="button" aria-pressed="true">REFRESH</a>
 </div>
 </body>
 </html>
