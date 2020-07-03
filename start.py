@@ -1,7 +1,8 @@
 from flask import Flask,render_template,request
-from predict import predict,plot_graph,make_data,predict_one,get_data_hourly
+from predict import predict,plot_graph,make_data,predict_one,get_data_hourly,history_data
 from database_conn import Database_write
 import datetime as dt
+import os
 
 app = Flask(__name__)
 
@@ -9,6 +10,15 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template('about.html')
+
+@app.route('/history')
+def saved_data():
+    graph1 = history_data()
+    if graph1 != None:
+        return render_template('hist.html',graph1 = graph1)
+    else:
+        return render_template('hist.html')
+
 
 @app.route('/input')
 def getform():
@@ -26,7 +36,6 @@ def hour():
         dt['POWER UPPER LIMIT (kWh)'] = list(df['y_upper'].values)
         dt['POWER LOWER LIMIT (kWh) '] = list(df['y_lower'].values)
         dt['DATE TIME'] = list(df.index.values)
-        print(dt)
         return render_template('table_sh.html',dt =dt)
     except Exception as ex:
         print(ex.args)
@@ -64,5 +73,5 @@ def predict12hrs():
         return render_template('index.html')
 
 if __name__ == '__main__':
-    #app.run(host='0.0.0.0',debug=False,port=int(os.getenv('PORT', 8000)))
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=False,port=int(os.getenv('PORT', 8000)))
+    #app.run(debug=True)
